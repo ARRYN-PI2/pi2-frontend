@@ -1,0 +1,143 @@
+.products-page h1 {
+  margin-top: 20px;
+}
+
+.filters {
+  margin-bottom: 20px;
+}
+
+.filters select,
+.filters input {
+  margin-left: 10px;
+  padding: 5px;
+}
+
+/* Select de categorías */
+.filters-sidebar select {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Slider de precio */
+.filters-sidebar input[type="range"] {
+  width: 100%;
+  margin: 5px 0;
+  cursor: pointer;
+  accent-color: #ff954f; 
+}
+
+.filters-sidebar label {
+  font-size: 13px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.filters-sidebar p {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+
+.products-grid {
+  display: flex;
+  flex-direction: column; /* uno debajo del otro */
+  gap: 20px;
+}
+
+.products-content {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Sidebar de filtros */
+.filters-sidebar {
+  width: 250px;
+  background: #fcfcfc;
+  padding: 15px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+/* --- Responsive --- */
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .products-content {
+    flex-direction: column; /* filtro arriba, productos abajo */
+    padding: 0 15px;         /* 👈 padding lateral */
+  }
+
+  .filters-sidebar {
+    width: 100%;   /* ocupa todo el ancho */
+    order: -1;     /* se muestra primero */
+    padding: 20px; /* 👈 más espacio interno */
+  }
+
+  .products-main {
+    padding: 15px 0; /* 👈 padding arriba/abajo para separarlo del filtro */
+  }
+}
+
+
+.filter-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 15px 0 10px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.filters-sidebar input[type="radio"] {
+  accent-color: #FA8232; /* 👈 color naranja */
+  cursor: pointer;
+}
+
+/* Productos */
+.products-main {
+  flex: 1;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.pagination button {
+  background: #FA8232;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #e36e15;
+}

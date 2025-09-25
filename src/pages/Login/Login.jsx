@@ -54,9 +54,6 @@ export default function Login() {
             <input type="password" placeholder="Password" required />
             <i className="bx bxs-lock-alt"></i>
           </div>
-          <div className="forgot-link">
-            <a href="#">Forgot password?</a>
-          </div>
           <button type="submit" className="btn">
             Login
           </button>

@@ -1,37 +1,40 @@
 import "./ProductCard.css";
 
-export default function ProductCard() {
+export default function ProductCard({ product }) {
   return (
     <div className="product-card">
+      {/* Col 1: Imagen */}
       <div className="product-image">
-        <img
-          src="https://via.placeholder.com/300x200"
-          alt="Imagen producto"
-        />
+        <img src={product.image} alt={product.name} />
       </div>
+
+      {/* Col 2: Info */}
       <div className="product-info">
-        <h2 className="product-title">
-          Computador Portátil ACER ASPIRE LITE 15.6" - AMD Ryzen 7 - 16GB RAM - 1TB SSD
-        </h2>
+        <h2 className="product-name">{product.name}</h2>
+        <p><strong>MARCA:</strong> {product.brand}</p>
+        <p><strong>Categoría:</strong> {product.category}</p>
+        <p className="rating">
+          <strong>Calificación:</strong> <span className="star">⭐</span> {product.rating}
+        </p>
+        <p className="product-price">${product.price.toLocaleString()}</p>
+      </div>
 
-        <ul className="specs">
-          <li><strong>Capacidad de Disco:</strong> SSD 1TB</li>
-          <li><strong>Procesador:</strong> AMD Ryzen 7</li>
-          <li><strong>Memoria RAM:</strong> 16 GB</li>
-          <li><strong>Tamaño Pantalla:</strong> 15.6"</li>
-        </ul>
+      {/* Col 3: Acciones */}
+      <div className="product-actions">
+        <p className="buy-line">
+          <strong>Cómpralo aquí:</strong><br />{" "}
+          <a
+            href={product.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="buy-link"
+          >
+            Visitar tienda
+          </a>
+        </p>
 
-        <div className="price">
-          <span className="current-price">$2.349.000</span>
-        </div>
+        <button className="details-btn">Detalles</button>
       </div>
     </div>
   );
 }
-
-{/* poner esto cuando vayamos a poner productos:
-    
-    import ProductCard from "../../components/ProductCard";
-          <ProductCard />
-  
-  */}

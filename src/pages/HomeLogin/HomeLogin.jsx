@@ -1,72 +1,107 @@
 import "./HomeLogin.css";
 import "../Styles/global.css";
-import { useRef, useEffect, useState  } from "react";
-import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Chatbot from "../../components/Chatbot";
 
-
 export default function HomeLogin() {
-
   const subMenuRef = useRef(null);
+  const navigate = useNavigate();
+
+  const [searchInput, setSearchInput] = useState("");
 
   const toggleMenu = () => {
     subMenuRef.current.classList.toggle("open-menu");
   };
 
+  // 👇 función para aplicar búsqueda
+  const handleSearch = () => {
+    if (searchInput.trim() !== "") {
+      navigate(`/products?search=${encodeURIComponent(searchInput)}`);
+    } else {
+      navigate("/products"); // si está vacío, muestra todo
+    }
+  };
+
+  // 👇 función para redirigir a productos con categoría seleccionada
+  const goToCategory = (cat) => {
+    navigate(`/products?category=${encodeURIComponent(cat)}`);
+  };
+
   return (
     <div className="home">
       <input type="checkbox" id="check" />
-        <div className="navbar__topbar">
-                <div className="container">
-                    <p className="navbar__welcome">Bienvenido al eCommerce online de Arryn store</p>
-                </div>
+      <div className="navbar__topbar">
+        <div className="container">
+          <p className="navbar__welcome">
+            Bienvenido al eCommerce online de Arryn store
+          </p>
         </div>
-        <nav className="navbar-home">
-            <div className="icon">
-                <Link to="/homeLogin">
-                    <img src="/src/assets/logo.svg" alt="Arryn logo" />
-                </Link>
-            </div>
-            <div className="search_box">
-                <input type="search" placeholder="Busca aquí" />
-                <span className="fa fa-search"></span>
-            </div>
-            <ol>
-                <li><Link to="/homeLogin">Inicio</Link></li>
-                <li><Link to="/product">Productos</Link></li>            
-                <li className="user-desktop">
-                  <img src="/src/assets/user.svg" className="user-pick" onClick={toggleMenu} role="button"/>
-                </li>
-                <li className="user-mobile"><Link to="/profile">Editar Perfil</Link></li>
-                <li className="user-mobile"><Link to="/logout">Cerrar Sesión</Link></li>
+      </div>
+      <nav className="navbar-home">
+        <div className="icon">
+          <Link to="/homeLogin">
+            <img src="/src/assets/logo.svg" alt="Arryn logo" />
+          </Link>
+        </div>
 
-                <div className="sub-menu-wrap" ref={subMenuRef}>
-                  <div className="sub-menu">
-                    <div className="user-info">
-                      <img src="/src/assets/icon.svg" />
-                      <h3>Bienvenido</h3>
-                    </div>
-                    <hr />
-                    
-                      <Link to="profile" className="sub-menu-link">
-                        <img src="/src/assets/profile.png" />
-                        <p>Editar perfil</p>
-                        
-                      </Link>
-                      <Link to="/logout" className="sub-menu-link">
-                        <img src="/src/assets/logout.png" />
-                        <p>Cerrar Sesión</p>
-                        
-                      </Link>
-                    
-                  </div>  
-                </div>
-            </ol>
-            <label htmlFor="check" className="bar">
-                <span className="fa fa-bars" id="bars"></span>
-                <span className="fa fa-times" id="times"></span>
-            </label>
-        </nav>
+        {/* 🔹 Barra de búsqueda */}
+        <div className="search_box">
+          <input
+            type="search"
+            placeholder="Busca aquí"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch(); // 👈 activa con Enter
+              }
+            }}
+          />
+          <span
+            className="fa fa-search"
+            role="button"
+            onClick={handleSearch} // 👈 activa con clic
+          ></span>
+        </div>
+
+        <ol>
+          <li><Link to="/homeLogin">Inicio</Link></li>
+          <li><Link to="/products">Productos</Link></li>
+          <li className="user-desktop">
+            <img
+              src="/src/assets/user.svg"
+              className="user-pick"
+              onClick={toggleMenu}
+              role="button"
+            />
+          </li>
+          <li className="user-mobile"><Link to="/profile">Editar Perfil</Link></li>
+          <li className="user-mobile"><Link to="/logout">Cerrar Sesión</Link></li>
+
+          <div className="sub-menu-wrap" ref={subMenuRef}>
+            <div className="sub-menu">
+              <div className="user-info">
+                <img src="/src/assets/icon.svg" />
+                <h3>Bienvenido</h3>
+              </div>
+              <hr />
+              <Link to="/profile" className="sub-menu-link">
+                <img src="/src/assets/profile.png" />
+                <p>Editar perfil</p>
+              </Link>
+              <Link to="/logout" className="sub-menu-link">
+                <img src="/src/assets/logout.png" />
+                <p>Cerrar Sesión</p>
+              </Link>
+            </div>
+          </div>
+        </ol>
+        <label htmlFor="check" className="bar">
+          <span className="fa fa-bars" id="bars"></span>
+          <span className="fa fa-times" id="times"></span>
+        </label>
+      </nav>
       
       <Chatbot />
 
@@ -90,15 +125,27 @@ export default function HomeLogin() {
 
       {/* Category buttons */}
       <div className="category-container">
-        <Link to="/products/televisores" className="category-item">
+        <div
+          className="category-item"
+          role="button"
+          onClick={() => goToCategory("Televisores")}
+        >
           <img src="/src/assets/arryntv.webp" alt="Televisores" />
-        </Link>
-        <Link to="/products/computadoras" className="category-item">
+        </div>
+        <div
+          className="category-item"
+          role="button"
+          onClick={() => goToCategory("Computadoras")}
+        >
           <img src="/src/assets/arryncomputadoras.webp" alt="Computadoras" />
-        </Link>
-        <Link to="/products/celulares" className="category-item">
+        </div>
+        <div
+          className="category-item"
+          role="button"
+          onClick={() => goToCategory("Celulares")}
+        >
           <img src="/src/assets/arryncel.webp" alt="Celulares" />
-        </Link>
+        </div>
       </div>
 
       {/* Info icons section */}
