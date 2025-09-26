@@ -17,6 +17,7 @@
   box-shadow: 0 3px 6px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   padding: 8px; /* más compacto */
+  cursor: pointer;
 }
 
 .category-item:hover {

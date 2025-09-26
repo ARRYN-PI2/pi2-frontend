@@ -1,0 +1,307 @@
+[
+  {
+    "id": 1,
+    "name": "Laptop Lenovo IdeaPad 3",
+    "price": 2500000,
+    "category": "Computadoras",
+    "rating": 4.5,
+    "brand": "Lenovo",
+    "image": "/images/laptop-lenovo-ideapad3.jpg",
+    "link": "https://www.lenovo.com/laptop-ideapad-3"
+  },
+  {
+    "id": 2,
+    "name": "Laptop HP Pavilion 15",
+    "price": 3100000,
+    "category": "Computadoras",
+    "rating": 4.2,
+    "brand": "HP",
+    "image": "/images/laptop-hp-pavilion15.jpg",
+    "link": "https://www.hp.com/pavilion-15"
+  },
+  {
+    "id": 3,
+    "name": "Laptop Dell Inspiron 14",
+    "price": 2900000,
+    "category": "Computadoras",
+    "rating": 4.4,
+    "brand": "Dell",
+    "image": "/images/laptop-dell-inspiron14.jpg",
+    "link": "https://www.dell.com/inspiron-14"
+  },
+  {
+    "id": 4,
+    "name": "MacBook Air M2",
+    "price": 6500000,
+    "category": "Computadoras",
+    "rating": 4.9,
+    "brand": "Apple",
+    "image": "/images/macbook-air-m2.jpg",
+    "link": "https://www.apple.com/macbook-air-m2"
+  },
+  {
+    "id": 5,
+    "name": "Asus TUF Gaming F15",
+    "price": 4200000,
+    "category": "Computadoras",
+    "rating": 4.6,
+    "brand": "Asus",
+    "image": "/images/asus-tuf-f15.jpg",
+    "link": "https://www.asus.com/tuf-gaming-f15"
+  },
+
+  {
+    "id": 6,
+    "name": "iPhone 14 Pro",
+    "price": 4800000,
+    "category": "Celulares",
+    "rating": 4.8,
+    "brand": "Apple",
+    "image": "/images/iphone14pro.jpg",
+    "link": "https://www.apple.com/iphone-14-pro"
+  },
+  {
+    "id": 7,
+    "name": "Samsung Galaxy S23 Ultra",
+    "price": 4200000,
+    "category": "Celulares",
+    "rating": 4.7,
+    "brand": "Samsung",
+    "image": "/images/galaxy-s23-ultra.jpg",
+    "link": "https://www.samsung.com/galaxy-s23-ultra"
+  },
+  {
+    "id": 8,
+    "name": "Xiaomi Redmi Note 12",
+    "price": 1200000,
+    "category": "Celulares",
+    "rating": 4.3,
+    "brand": "Xiaomi",
+    "image": "/images/redmi-note12.jpg",
+    "link": "https://www.mi.com/redmi-note-12"
+  },
+  {
+    "id": 9,
+    "name": "Google Pixel 7",
+    "price": 3800000,
+    "category": "Celulares",
+    "rating": 4.5,
+    "brand": "Google",
+    "image": "/images/pixel7.jpg",
+    "link": "https://store.google.com/pixel-7"
+  },
+  {
+    "id": 10,
+    "name": "Motorola Edge 30",
+    "price": 1800000,
+    "category": "Celulares",
+    "rating": 4.2,
+    "brand": "Motorola",
+    "image": "/images/motorola-edge30.jpg",
+    "link": "https://www.motorola.com/edge-30"
+  },
+
+  {
+    "id": 11,
+    "name": "Televisor Samsung 55'' 4K",
+    "price": 3200000,
+    "category": "Televisores",
+    "rating": 4.6,
+    "brand": "Samsung",
+    "image": "/images/samsung-tv-55.jpg",
+    "link": "https://www.samsung.com/tv-55-4k"
+  },
+  {
+    "id": 12,
+    "name": "Televisor LG OLED 65''",
+    "price": 6800000,
+    "category": "Televisores",
+    "rating": 4.9,
+    "brand": "LG",
+    "image": "/images/lg-oled-65.jpg",
+    "link": "https://www.lg.com/oled65"
+  },
+  {
+    "id": 13,
+    "name": "Sony Bravia 50''",
+    "price": 4500000,
+    "category": "Televisores",
+    "rating": 4.7,
+    "brand": "Sony",
+    "image": "/images/sony-bravia-50.jpg",
+    "link": "https://www.sony.com/bravia50"
+  },
+  {
+    "id": 14,
+    "name": "TCL 43'' Smart TV",
+    "price": 1700000,
+    "category": "Televisores",
+    "rating": 4.3,
+    "brand": "TCL",
+    "image": "/images/tcl-43.jpg",
+    "link": "https://www.tcl.com/43-smart-tv"
+  },
+  {
+    "id": 15,
+    "name": "Hisense 32'' LED",
+    "price": 900000,
+    "category": "Televisores",
+    "rating": 4.1,
+    "brand": "Hisense",
+    "image": "/images/hisense-32.jpg",
+    "link": "https://www.hisense.com/32-led"
+  },
+
+  {
+    "id": 16,
+    "name": "iPad Pro 12.9",
+    "price": 5200000,
+    "category": "Tablets",
+    "rating": 4.9,
+    "brand": "Apple",
+    "image": "/images/ipad-pro-12-9.jpg",
+    "link": "https://www.apple.com/ipad-pro"
+  },
+  {
+    "id": 17,
+    "name": "Samsung Galaxy Tab S8",
+    "price": 3400000,
+    "category": "Tablets",
+    "rating": 4.7,
+    "brand": "Samsung",
+    "image": "/images/galaxy-tab-s8.jpg",
+    "link": "https://www.samsung.com/tab-s8"
+  },
+  {
+    "id": 18,
+    "name": "Xiaomi Pad 5",
+    "price": 1800000,
+    "category": "Tablets",
+    "rating": 4.4,
+    "brand": "Xiaomi",
+    "image": "/images/xiaomi-pad5.jpg",
+    "link": "https://www.mi.com/pad-5"
+  },
+  {
+    "id": 19,
+    "name": "Lenovo Tab P11",
+    "price": 1500000,
+    "category": "Tablets",
+    "rating": 4.2,
+    "brand": "Lenovo",
+    "image": "/images/lenovo-tabp11.jpg",
+    "link": "https://www.lenovo.com/tab-p11"
+  },
+  {
+    "id": 20,
+    "name": "Huawei MatePad 11",
+    "price": 2000000,
+    "category": "Tablets",
+    "rating": 4.5,
+    "brand": "Huawei",
+    "image": "/images/huawei-matepad11.jpg",
+    "link": "https://consumer.huawei.com/matepad-11"
+  },
+
+  {
+    "id": 21,
+    "name": "Mouse Logitech MX Master 3",
+    "price": 450000,
+    "category": "Accesorios",
+    "rating": 4.8,
+    "brand": "Logitech",
+    "image": "/images/logitech-mxmaster3.jpg",
+    "link": "https://www.logitech.com/mx-master-3"
+  },
+  {
+    "id": 22,
+    "name": "Teclado Mecánico Razer BlackWidow",
+    "price": 620000,
+    "category": "Accesorios",
+    "rating": 4.7,
+    "brand": "Razer",
+    "image": "/images/razer-blackwidow.jpg",
+    "link": "https://www.razer.com/blackwidow"
+  },
+  {
+    "id": 23,
+    "name": "Audífonos Sony WH-1000XM4",
+    "price": 1200000,
+    "category": "Accesorios",
+    "rating": 4.9,
+    "brand": "Sony",
+    "image": "/images/sony-wh1000xm4.jpg",
+    "link": "https://www.sony.com/wh1000xm4"
+  },
+  {
+    "id": 24,
+    "name": "Monitor LG UltraWide 29''",
+    "price": 1500000,
+    "category": "Accesorios",
+    "rating": 4.6,
+    "brand": "LG",
+    "image": "/images/lg-ultrawide29.jpg",
+    "link": "https://www.lg.com/ultrawide-29"
+  },
+  {
+    "id": 25,
+    "name": "Cámara Logitech C920",
+    "price": 350000,
+    "category": "Accesorios",
+    "rating": 4.5,
+    "brand": "Logitech",
+    "image": "/images/logitech-c920.jpg",
+    "link": "https://www.logitech.com/c920"
+  },
+
+  {
+    "id": 26,
+    "name": "Refrigeradora LG Smart Inverter",
+    "price": 3800000,
+    "category": "Electrodomésticos",
+    "rating": 4.7,
+    "brand": "LG",
+    "image": "/images/lg-refrigerador.jpg",
+    "link": "https://www.lg.com/refrigeradora"
+  },
+  {
+    "id": 27,
+    "name": "Lavadora Samsung EcoBubble",
+    "price": 2500000,
+    "category": "Electrodomésticos",
+    "rating": 4.6,
+    "brand": "Samsung",
+    "image": "/images/samsung-lavadora.jpg",
+    "link": "https://www.samsung.com/lavadora-ecobubble"
+  },
+  {
+    "id": 28,
+    "name": "Microondas Panasonic Inverter",
+    "price": 800000,
+    "category": "Electrodomésticos",
+    "rating": 4.4,
+    "brand": "Panasonic",
+    "image": "/images/panasonic-microondas.jpg",
+    "link": "https://www.panasonic.com/microondas"
+  },
+  {
+    "id": 29,
+    "name": "Aspiradora Dyson V11",
+    "price": 2200000,
+    "category": "Electrodomésticos",
+    "rating": 4.8,
+    "brand": "Dyson",
+    "image": "/images/dyson-v11.jpg",
+    "link": "https://www.dyson.com/v11"
+  },
+  {
+    "id": 30,
+    "name": "Cafetera Oster Espresso",
+    "price": 600000,
+    "category": "Electrodomésticos",
+    "rating": 4.3,
+    "brand": "Oster",
+    "image": "/images/oster-espresso.jpg",
+    "link": "https://www.oster.com/espresso"
+  }
+]
