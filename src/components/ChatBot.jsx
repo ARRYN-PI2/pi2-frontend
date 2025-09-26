@@ -7,7 +7,7 @@ export default function Chatbot() {
     // 🔄 Carga historial desde sessionStorage
     const saved = sessionStorage.getItem("chat:global");
     return saved ? JSON.parse(saved) : [
-      { from: "bot", text: "Hola 👋 ¿Cómo te puedo ayudar el día de hoy?" }
+      { from: "bot", text: "Hola 👋 ¿Cómo te puedo ayudar el día de hoy? " }
     ];
   });
   const [input, setInput] = useState("");
