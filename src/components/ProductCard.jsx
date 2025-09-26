@@ -2,7 +2,7 @@ import "./ProductCard.css";
 
 export default function ProductCard({ product }) {
   return (
-    <div className="product-card">
+    <div className="product-card" data-testid="product-card">   {/* ✅ agregado */}
       {/* Col 1: Imagen */}
       <div className="product-image">
         <img src={product.image} alt={product.name} />

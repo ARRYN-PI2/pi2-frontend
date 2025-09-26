@@ -6,6 +6,7 @@ import productsData from "../../data/products.json";
 import ProductCard from "../../components/ProductCard";
 import Chatbot from "../../components/Chatbot";
 
+
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -194,8 +195,9 @@ export default function Products() {
 
           <h3 className="filter-title">RANGO DE PRECIO</h3>
           <div className="filter-group">
-            <label>Mínimo</label>
+            <label htmlFor="minPrice">Mínimo</label>
             <input
+              id="minPrice"
               type="range"
               min="0"
               max="10000000"
@@ -203,8 +205,10 @@ export default function Products() {
               value={minPrice}
               onChange={(e) => setMinPrice(Number(e.target.value))}
             />
-            <label>Máximo</label>
+
+            <label htmlFor="maxPrice">Máximo</label>
             <input
+              id="maxPrice"
               type="range"
               min="0"
               max="10000000"
@@ -212,11 +216,13 @@ export default function Products() {
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
             />
+
             <p>
-              Rango: ${minPrice.toLocaleString()} – $
-              {maxPrice.toLocaleString()}
+              Rango: ${minPrice.toLocaleString()} – ${maxPrice.toLocaleString()}
             </p>
           </div>
+
+
 
           <h3 className="filter-title">CALIFICACIÓN</h3>
           <div className="filter-group">
