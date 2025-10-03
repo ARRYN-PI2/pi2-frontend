@@ -1,3 +1,4 @@
+// Products.jsx
 import "./Products.css";
 import "../Styles/global.css";
 import { useState, useEffect, useRef } from "react";
@@ -6,21 +7,21 @@ import productsData from "../../data/products.json";
 import ProductCard from "../../components/ProductCard";
 import Chatbot from "../../components/Chatbot";
 
-
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  // Filtros
+  // 🔹 Filtros
   const [category, setCategory] = useState("all");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(10000000);
+  const [priceBounds, setPriceBounds] = useState({ min: 0, max: 10000000 });
   const [rating, setRating] = useState(0);
 
-  // 👇 Estados de búsqueda
-  const [searchInput, setSearchInput] = useState(""); // lo que escribe el user
-  const [searchTerm, setSearchTerm] = useState("");   // lo que activa el filtro
+  // 🔹 Estados de búsqueda
+  const [searchInput, setSearchInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   // 🔹 Paginación
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,18 +34,38 @@ export default function Products() {
     subMenuRef.current.classList.toggle("open-menu");
   };
 
-  // 👇 Función para normalizar texto (quita tildes y pasa a minúsculas)
-  const normalize = (str) =>
+  // 🔹 Normalizar texto (quita tildes y pasa a minúsculas)
+  const normalizeText = (str) =>
     str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-  // Cargar productos y categorías únicas
+  // 🔹 Formato bonito COP
+  const formatCOP = (n) =>
+    Number(n || 0).toLocaleString("es-CO", {
+      style: "currency",
+      currency: "COP",
+      maximumFractionDigits: 0,
+    });
+
+  // 🔹 Cargar productos y categorías únicas
   useEffect(() => {
     setProducts(productsData);
-    const uniqueCategories = [...new Set(productsData.map((p) => p.category))];
+
+    const uniqueCategories = [
+      ...new Set(productsData.map((p) => p.categoria)),
+    ];
     setCategories(uniqueCategories);
+
+    // 🟣 calcular límites dinámicos de precios
+    const prices = productsData.map((p) => Number(p.precio_valor) || 0);
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+
+    setPriceBounds({ min, max });
+    setMinPrice(min);
+    setMaxPrice(max);
   }, []);
 
-  // Leer query params (?category=... & ?search=...)
+  // 🔹 Leer query params (?category=... & ?search=...)
   useEffect(() => {
     const cat = searchParams.get("category");
     if (cat) setCategory(cat);
@@ -52,47 +73,51 @@ export default function Products() {
     const search = searchParams.get("search");
     if (search) {
       setSearchTerm(search);
-      setSearchInput(search); //lo escribe en la caja también
+      setSearchInput(search);
     }
   }, [searchParams]);
 
-  // Aplicar filtros
+  // 🔹 Aplicar filtros
   useEffect(() => {
     let result = [...products];
 
     if (category !== "all") {
-      result = result.filter((p) => p.category === category);
-    }
-    result = result.filter((p) => p.price >= minPrice && p.price <= maxPrice);
-
-    if (rating > 0) {
-      result = result.filter((p) => p.rating >= rating);
+      result = result.filter((p) => p.categoria === category);
     }
 
-    // 👇 Filtro por búsqueda (sin tildes ni mayúsculas)
-    if (searchTerm.trim() !== "") {
-      const term = normalize(searchTerm);
+    result = result.filter(
+      (p) => p.precio_valor >= minPrice && p.precio_valor <= maxPrice
+    );
+
+    if (rating === "none") {
+      result = result.filter((p) => p.calificacion === "Sin calificacion");
+    } else if (typeof rating === "number" && rating > 0) {
       result = result.filter(
         (p) =>
-          normalize(p.name).includes(term) ||
-          normalize(p.brand).includes(term) ||
-          normalize(p.category).includes(term)
+          typeof p.calificacion === "number" && p.calificacion >= rating
       );
     }
 
-    result.sort((a, b) => b.price - a.price);
+    if (searchTerm.trim() !== "") {
+      const term = normalizeText(searchTerm);
+      result = result.filter(
+        (p) =>
+          normalizeText(p.titulo).includes(term) ||
+          normalizeText(p.categoria).includes(term) ||
+          normalizeText(p.marca).includes(term)
+      );
+    }
+
+    result.sort((a, b) => b.precio_valor - a.precio_valor);
     setFilteredProducts(result);
 
-    // Reiniciar a página 1 cada vez que se aplican filtros
     setCurrentPage(1);
   }, [products, category, minPrice, maxPrice, rating, searchTerm]);
 
-  // Productos de la página actual
+  // 🔹 Paginación
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirst, indexOfLast);
-
-  // Número total de páginas
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   return (
@@ -106,6 +131,7 @@ export default function Products() {
           </p>
         </div>
       </div>
+
       <nav className="navbar-home">
         <div className="icon">
           <Link to="/homeLogin">
@@ -122,11 +148,10 @@ export default function Products() {
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                setSearchTerm(searchInput); //aplica filtro con Enter
+                setSearchTerm(searchInput); // aplica filtro con Enter
               }
             }}
           />
-          {/* Cuando haces clic en la lupa se aplica el filtro */}
           <span
             className="fa fa-search"
             role="button"
@@ -166,18 +191,17 @@ export default function Products() {
             </div>
           </div>
         </ol>
+
         <label htmlFor="check" className="bar">
           <span className="fa fa-bars" id="bars"></span>
           <span className="fa fa-times" id="times"></span>
         </label>
       </nav>
 
-      {/* Chatbot */}
-      <Chatbot />
 
       <div className="products-content">
-        {/* 🔹 Sidebar de filtros */}
         <aside className="filters-sidebar">
+          {/* Categoría */}
           <h3 className="filter-title">CATEGORÍA</h3>
           <div className="filter-group">
             <select
@@ -193,15 +217,16 @@ export default function Products() {
             </select>
           </div>
 
+          {/* 🔹 Rango de precio */}
           <h3 className="filter-title">RANGO DE PRECIO</h3>
           <div className="filter-group">
             <label htmlFor="minPrice">Mínimo</label>
             <input
               id="minPrice"
               type="range"
-              min="0"
-              max="10000000"
-              step="50000"
+              min={priceBounds.min}
+              max={priceBounds.max}
+              step={10000}
               value={minPrice}
               onChange={(e) => setMinPrice(Number(e.target.value))}
             />
@@ -210,20 +235,19 @@ export default function Products() {
             <input
               id="maxPrice"
               type="range"
-              min="0"
-              max="10000000"
-              step="50000"
+              min={priceBounds.min}
+              max={priceBounds.max}
+              step={10000}
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
             />
 
             <p>
-              Rango: ${minPrice.toLocaleString()} – ${maxPrice.toLocaleString()}
+              Rango: {formatCOP(minPrice)} – {formatCOP(maxPrice)}
             </p>
           </div>
 
-
-
+          {/* Calificación */}
           <h3 className="filter-title">CALIFICACIÓN</h3>
           <div className="filter-group">
             <label>
@@ -234,6 +258,15 @@ export default function Products() {
                 onChange={(e) => setRating(Number(e.target.value))}
               />
               Todas
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="none"
+                checked={rating === "none"}
+                onChange={(e) => setRating(e.target.value)}
+              />
+              Sin calificación
             </label>
             <label>
               <input
@@ -265,19 +298,17 @@ export default function Products() {
           </div>
         </aside>
 
-        {/* 🔹 Grid de productos */}
         <section className="products-main">
           <div className="products-grid">
             {currentProducts.length > 0 ? (
-              currentProducts.map((p) => (
-                <ProductCard key={p.id} product={p} />
+              currentProducts.map((p, idx) => (
+                <ProductCard key={idx} product={p} />
               ))
             ) : (
               <p>No se encontraron productos</p>
             )}
           </div>
 
-          {/* 🔹 Controles de paginación */}
           {totalPages > 1 && (
             <div className="pagination">
               <button
@@ -299,12 +330,6 @@ export default function Products() {
           )}
         </section>
       </div>
-
-      <footer className="footer">
-        <p className="footer__text">
-          © 2025 Arryn | Todos los derechos reservados.
-        </p>
-      </footer>
     </div>
   );
 }
