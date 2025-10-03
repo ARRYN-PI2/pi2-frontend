@@ -1,6 +1,10 @@
+import { useState } from "react";
 import "./ProductCard.css";
+import ProductModal from "./ProductModal";
 
 export default function ProductCard({ product }) {
+  const [showModal, setShowModal] = useState(false);
+
   // Fallbacks por si faltan datos
   const nombre = product?.titulo || product?.name || "Producto sin nombre";
   const marca = product?.marca || product?.brand || "Sin marca";
@@ -58,8 +62,22 @@ export default function ProductCard({ product }) {
           </a>
         </p>
 
-        <button className="details-btn">Detalles</button>
+        {/* ✅ Aquí conectamos el modal */}
+        <button
+          className="details-btn"
+          onClick={() => setShowModal(true)}
+        >
+          Detalles
+        </button>
       </div>
+
+      {/* ✅ Render del modal */}
+      {showModal && (
+        <ProductModal
+          product={product}
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </div>
   );
 }
