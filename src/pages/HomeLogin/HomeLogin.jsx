@@ -1,5 +1,6 @@
 import "./HomeLogin.css";
 import "../Styles/global.css";
+import "../Styles/DarkMode.css";
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Chatbot from "../../components/Chatbot";
@@ -9,23 +10,36 @@ export default function HomeLogin() {
   const navigate = useNavigate();
 
   const [searchInput, setSearchInput] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
+  const [showPopup, setShowPopup] = useState(false); // ✅ popup visible
 
   const toggleMenu = () => {
-    subMenuRef.current.classList.toggle("open-menu");
+    if (subMenuRef.current) subMenuRef.current.classList.toggle("open-menu");
   };
 
-  // función para aplicar búsqueda
   const handleSearch = () => {
     if (searchInput.trim() !== "") {
       navigate(`/products?search=${encodeURIComponent(searchInput)}`);
     } else {
-      navigate("/products"); // si está vacío, muestra todo
+      navigate("/products");
     }
   };
 
-  // función para redirigir a productos con categoría seleccionada
   const goToCategory = (cat) => {
     navigate(`/products?category=${encodeURIComponent(cat)}`);
+  };
+
+  // 🔹 Abre el popup de modo
+  const handleEditClick = (e) => {
+    if (e) e.preventDefault();
+    setShowPopup(true);
+  };
+
+  // 🔹 Cambia el modo y cierra popup
+  const handleModeChange = (mode) => {
+    setDarkMode(mode === "dark");
+    document.body.classList.toggle("dark-mode", mode === "dark");
+    setShowPopup(false);
   };
 
   return (
@@ -38,6 +52,7 @@ export default function HomeLogin() {
           </p>
         </div>
       </div>
+
       <nav className="navbar-home">
         <div className="icon">
           <Link to="/homeLogin">
@@ -53,16 +68,10 @@ export default function HomeLogin() {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSearch(); 
-              }
+              if (e.key === "Enter") handleSearch();
             }}
           />
-          <span
-            className="fa fa-search"
-            role="button"
-            onClick={handleSearch} 
-          ></span>
+          <span className="fa fa-search" role="button" onClick={handleSearch}></span>
         </div>
 
         <ol>
@@ -74,36 +83,68 @@ export default function HomeLogin() {
               className="user-pick"
               onClick={toggleMenu}
               role="button"
+              alt="Usuario"
             />
           </li>
-          <li className="user-mobile"><Link to="/profile">Editar Perfil</Link></li>
-          <li className="user-mobile"><Link to="/logout">Cerrar Sesión</Link></li>
 
+          {/* 🔹 Botón Editar Sitio abre el popup */}
+          <li className="user-mobile">
+            <button className="edit-site-btn" onClick={handleEditClick}>
+              🛠️ Editar Sitio
+            </button>
+          </li>
+
+          <li className="user-mobile">
+            <Link to="/logout">Cerrar Sesión</Link>
+          </li>
+
+          {/* Submenú */}
           <div className="sub-menu-wrap" ref={subMenuRef}>
             <div className="sub-menu">
               <div className="user-info">
-                <img src="/src/assets/icon.svg" />
+                <img src="/src/assets/icon.svg" alt="Icono" />
                 <h3>Bienvenido</h3>
               </div>
               <hr />
-              <Link to="/profile" className="sub-menu-link">
-                <img src="/src/assets/profile.png" />
-                <p>Editar sitio</p>
-              </Link>
+              <button
+                className="sub-menu-link edit-site-btn"
+                onClick={handleEditClick}
+              >
+                <img src="/src/assets/profile.png" alt="Editar" />
+                <p>Editar Sitio</p>
+              </button>
               <Link to="/logout" className="sub-menu-link">
-                <img src="/src/assets/logout.png" />
+                <img src="/src/assets/logout.png" alt="Salir" />
                 <p>Cerrar Sesión</p>
               </Link>
             </div>
           </div>
         </ol>
+
         <label htmlFor="check" className="bar">
           <span className="fa fa-bars" id="bars"></span>
           <span className="fa fa-times" id="times"></span>
         </label>
       </nav>
-      
+
       <Chatbot />
+
+      {/* 🔹 Popup modo claro/oscuro */}
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h2>Personaliza la apariencia</h2>
+            <p>Selecciona el modo de visualización:</p>
+            <div className="popup-buttons">
+              <button onClick={() => handleModeChange("light")}>Modo Claro</button>
+              <button onClick={() => handleModeChange("dark")}>Modo Oscuro</button>
+            </div>
+            <button className="close-popup" onClick={() => setShowPopup(false)}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* First group of images */}
       <div className="img_container1">
