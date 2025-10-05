@@ -215,6 +215,18 @@ body.dark-mode .product-card p:not(.product-price) {
   color: #1a1a1a;
 }
 
+
+
+/* Detalles de productos */
+
+body.dark-mode .modal-body h3 {
+  color: #2b2b2b;
+}
+
+body.dark-mode .modal-close {
+  color: #444;
+}
+
 /* paginacion */
 
 body.dark-mode .pagination button {
