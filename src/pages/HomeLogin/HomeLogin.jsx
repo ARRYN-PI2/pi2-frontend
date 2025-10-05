@@ -42,6 +42,11 @@ export default function HomeLogin() {
     setShowPopup(false);
   };
 
+  // 🔹 Cierra sesión y redirige a /
+  const handleLogout = () => {
+    navigate("/"); // redirige al inicio
+  };
+
   return (
     <div className="home">
       <input type="checkbox" id="check" />
@@ -71,7 +76,11 @@ export default function HomeLogin() {
               if (e.key === "Enter") handleSearch();
             }}
           />
-          <span className="fa fa-search" role="button" onClick={handleSearch}></span>
+          <span
+            className="fa fa-search"
+            role="button"
+            onClick={handleSearch}
+          ></span>
         </div>
 
         <ol>
@@ -94,8 +103,9 @@ export default function HomeLogin() {
             </button>
           </li>
 
+          {/* 🔹 Botón de cerrar sesión móvil */}
           <li className="user-mobile">
-            <Link to="/logout">Cerrar Sesión</Link>
+            <button onClick={handleLogout}>Cerrar Sesión</button>
           </li>
 
           {/* Submenú */}
@@ -113,10 +123,12 @@ export default function HomeLogin() {
                 <img src="/src/assets/profile.png" alt="Editar" />
                 <p>Editar Sitio</p>
               </button>
-              <Link to="/logout" className="sub-menu-link">
+
+              {/* 🔹 Cerrar sesión (desktop) */}
+              <button className="sub-menu-link" onClick={handleLogout}>
                 <img src="/src/assets/logout.png" alt="Salir" />
                 <p>Cerrar Sesión</p>
-              </Link>
+              </button>
             </div>
           </div>
         </ol>
@@ -146,7 +158,7 @@ export default function HomeLogin() {
         </div>
       )}
 
-      {/* First group of images */}
+      {/* 🔹 Resto del contenido igual */}
       <div className="img_container1">
         <div className="imagen grande">
           <img src="/src/assets/decoration1.webp" />
@@ -160,11 +172,7 @@ export default function HomeLogin() {
           </div>
         </div>
       </div>
-      
 
-      
-
-      {/* Category buttons */}
       <div className="category-container">
         <div
           className="category-item"
@@ -189,7 +197,7 @@ export default function HomeLogin() {
         </div>
       </div>
 
-      {/* Info icons section */}
+      {/* 🔹 Secciones informativas */}
       <div className="arryn-info">
         <div>
           <i className="fas fa-tags"></i>
@@ -228,7 +236,6 @@ export default function HomeLogin() {
         </div>
       </div>
 
-      {/* Info Section estilo presentación */}
       <div className="info-section">
         <div className="info-image">
           <img src="/src/assets/workerarryn.webp" alt="Presentador Arryn" />
@@ -253,17 +260,11 @@ export default function HomeLogin() {
         </div>
       </div>
 
-      {/* Text paragraph */}
-
-      <h2 class="pulse-title">
+      <h2 className="pulse-title">
         Más que productos, ofrecemos soluciones que mejoran tu vida.<br />
         Explora nuestras novedades y encuentra lo que necesitas.
       </h2>
 
-
-
-
-      {/* Second group of images */}
       <div className="img_container2">
         <div className="img">
           <img src="/src/assets/decoration4.webp" alt="Apple card" />
@@ -276,9 +277,6 @@ export default function HomeLogin() {
       <footer className="footer">
         <p className="footer__text">© 2025 Arryn | Todos los derechos reservados.</p>
       </footer>
-
-    
     </div>
-    
   );
 }

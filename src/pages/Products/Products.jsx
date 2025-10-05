@@ -2,7 +2,7 @@ import "./Products.css";
 import "../Styles/global.css";
 import "../Styles/DarkMode.css";
 import { useState, useEffect, useRef } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams, Link, useNavigate } from "react-router-dom"; // agregado useNavigate
 import productsData from "../../data/products.json";
 import ProductCard from "../../components/ProductCard";
 import Chatbot from "../../components/Chatbot";
@@ -33,9 +33,15 @@ export default function Products() {
 
   const [searchParams] = useSearchParams();
   const subMenuRef = useRef(null);
+  const navigate = useNavigate(); // 👈 hook de navegación
 
   const toggleMenu = () => {
     subMenuRef.current.classList.toggle("open-menu");
+  };
+
+  // 🔹 Cerrar sesión
+  const handleLogout = () => {
+    navigate("/"); // 👈 redirige al inicio
   };
 
   // Normalizar texto
@@ -192,8 +198,9 @@ export default function Products() {
             </button>
           </li>
 
+          {/* 🔹 Botón Cerrar Sesión móvil */}
           <li className="user-mobile">
-            <Link to="/logout">Cerrar Sesión</Link>
+            <button onClick={handleLogout}>Cerrar Sesión</button>
           </li>
 
           {/* Submenú */}
@@ -213,10 +220,11 @@ export default function Products() {
                 <p>Editar Sitio</p>
               </button>
 
-              <Link to="/logout" className="sub-menu-link">
+              {/* 🔹 Cerrar sesión desde menú desktop */}
+              <button className="sub-menu-link" onClick={handleLogout}>
                 <img src="/src/assets/logout.png" alt="Salir" />
                 <p>Cerrar Sesión</p>
-              </Link>
+              </button>
             </div>
           </div>
         </ol>
