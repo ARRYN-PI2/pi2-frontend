@@ -8,7 +8,7 @@ export default function ProductModal({ product, onClose }) {
     <div className="modal-overlay" onClick={onClose}>
       <div
         className="modal-content"
-        onClick={(e) => e.stopPropagation()} // evitar cerrar al hacer click dentro
+        onClick={(e) => e.stopPropagation()} 
       >
         <button className="modal-close" onClick={onClose}>
           ✖

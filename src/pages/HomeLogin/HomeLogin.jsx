@@ -14,7 +14,7 @@ export default function HomeLogin() {
     subMenuRef.current.classList.toggle("open-menu");
   };
 
-  // 👇 función para aplicar búsqueda
+  // función para aplicar búsqueda
   const handleSearch = () => {
     if (searchInput.trim() !== "") {
       navigate(`/products?search=${encodeURIComponent(searchInput)}`);
@@ -23,7 +23,7 @@ export default function HomeLogin() {
     }
   };
 
-  // 👇 función para redirigir a productos con categoría seleccionada
+  // función para redirigir a productos con categoría seleccionada
   const goToCategory = (cat) => {
     navigate(`/products?category=${encodeURIComponent(cat)}`);
   };
@@ -54,14 +54,14 @@ export default function HomeLogin() {
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                handleSearch(); // 👈 activa con Enter
+                handleSearch(); 
               }
             }}
           />
           <span
             className="fa fa-search"
             role="button"
-            onClick={handleSearch} // 👈 activa con clic
+            onClick={handleSearch} 
           ></span>
         </div>
 
@@ -88,7 +88,7 @@ export default function HomeLogin() {
               <hr />
               <Link to="/profile" className="sub-menu-link">
                 <img src="/src/assets/profile.png" />
-                <p>Editar perfil</p>
+                <p>Editar sitio</p>
               </Link>
               <Link to="/logout" className="sub-menu-link">
                 <img src="/src/assets/logout.png" />

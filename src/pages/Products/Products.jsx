@@ -182,7 +182,7 @@ export default function Products() {
               <hr />
               <Link to="/profile" className="sub-menu-link">
                 <img src="/src/assets/profile.png" />
-                <p>Editar perfil</p>
+                <p>Editar sitio</p>
               </Link>
               <Link to="/logout" className="sub-menu-link">
                 <img src="/src/assets/logout.png" />
@@ -191,7 +191,12 @@ export default function Products() {
             </div>
           </div>
         </ol>
+        
+        
+        <Chatbot />
 
+
+        
         <label htmlFor="check" className="bar">
           <span className="fa fa-bars" id="bars"></span>
           <span className="fa fa-times" id="times"></span>

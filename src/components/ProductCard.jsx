@@ -25,7 +25,7 @@ export default function ProductCard({ product }) {
           src={imagen}
           alt={nombre}
           onError={(e) => {
-            e.currentTarget.src = "/src/assets/placeholder-product.png";
+            e.currentTarget.src = "/src/assets/placeholder-product.webp";
           }}
         />
       </div>
