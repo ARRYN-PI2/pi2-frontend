@@ -108,19 +108,29 @@
 
 /* --- Responsive --- */
 @media (max-width: 900px) {
-  .product-card { max-width: 100%; }
+  .product-card {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
   .product-card {
     grid-template-columns: 1fr;
     text-align: center;
+    padding: 14px;
   }
 
   .product-image {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 12px auto; /* centrada */
+  }
+
+  .product-image img {
     width: 100%;
-    height: 200px;
-    margin-bottom: 10px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
   }
 
   .product-actions {
