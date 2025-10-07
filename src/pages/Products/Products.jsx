@@ -39,10 +39,11 @@ export default function Products() {
     subMenuRef.current.classList.toggle("open-menu");
   };
 
-  // 🔹 Cerrar sesión
   const handleLogout = () => {
-    navigate("/"); // 👈 redirige al inicio
+    document.body.classList.remove("dark-mode"); // 🔹 Limpia modo oscuro
+    navigate("/"); // 🔹 Redirige al inicio
   };
+
 
   // Normalizar texto
   const normalizeText = (str) =>
@@ -200,7 +201,9 @@ export default function Products() {
 
           {/* 🔹 Botón Cerrar Sesión móvil */}
           <li className="user-mobile">
-            <button onClick={handleLogout}>Cerrar Sesión</button>
+            <button onClick={handleLogout} className="logout-btn">
+              Cerrar Sesión
+            </button>
           </li>
 
           {/* Submenú */}
@@ -221,7 +224,10 @@ export default function Products() {
               </button>
 
               {/* 🔹 Cerrar sesión desde menú desktop */}
-              <button className="sub-menu-link" onClick={handleLogout}>
+              <button
+                className="sub-menu-link logout-btn"
+                onClick={handleLogout}
+              >
                 <img src="/src/assets/logout.png" alt="Salir" />
                 <p>Cerrar Sesión</p>
               </button>

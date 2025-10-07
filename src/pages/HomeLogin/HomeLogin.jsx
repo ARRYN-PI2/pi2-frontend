@@ -42,10 +42,11 @@ export default function HomeLogin() {
     setShowPopup(false);
   };
 
-  // 🔹 Cierra sesión y redirige a /
   const handleLogout = () => {
-    navigate("/"); // redirige al inicio
+    document.body.classList.remove("dark-mode"); // 🔹 Limpia modo oscuro
+    navigate("/"); // 🔹 Redirige al inicio
   };
+
 
   return (
     <div className="home">
@@ -105,8 +106,11 @@ export default function HomeLogin() {
 
           {/* 🔹 Botón de cerrar sesión móvil */}
           <li className="user-mobile">
-            <button onClick={handleLogout}>Cerrar Sesión</button>
+            <button onClick={handleLogout} className="logout-btn">
+              Cerrar Sesión
+            </button>
           </li>
+
 
           {/* Submenú */}
           <div className="sub-menu-wrap" ref={subMenuRef}>
@@ -125,7 +129,10 @@ export default function HomeLogin() {
               </button>
 
               {/* 🔹 Cerrar sesión (desktop) */}
-              <button className="sub-menu-link" onClick={handleLogout}>
+              <button
+                className="sub-menu-link logout-btn"
+                onClick={handleLogout}
+              >
                 <img src="/src/assets/logout.png" alt="Salir" />
                 <p>Cerrar Sesión</p>
               </button>
@@ -249,12 +256,12 @@ export default function HomeLogin() {
             <strong>+20 años de experiencia | Más de 100.000 usuarios satisfechos</strong>
           </p>
           <p>
-            En Arryn entendemos lo difícil que puede ser elegir el producto ideal. 
-            Por eso, te acompañamos paso a paso con herramientas inteligentes, comparaciones de precios 
+            En Arryn entendemos lo difícil que puede ser elegir el producto ideal.
+            Por eso, te acompañamos paso a paso con herramientas inteligentes, comparaciones de precios
             y un asistente virtual que te ayuda a tomar la mejor decisión.
           </p>
           <p>
-            Nuestro objetivo es que tengas claridad, confianza y seguridad en tus compras, 
+            Nuestro objetivo es que tengas claridad, confianza y seguridad en tus compras,
             para transformar tu experiencia online en algo rápido, seguro y confiable.
           </p>
         </div>
