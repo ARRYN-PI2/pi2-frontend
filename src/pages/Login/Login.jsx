@@ -1,100 +1,105 @@
 import React, { useEffect, useRef } from "react";
 import "./Login.css";
-import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const navigate = useNavigate();
-
-  // Refs para acceder a los elementos
   const containerRef = useRef(null);
-  const registerBtnRef = useRef(null);
-  const loginBtnRef = useRef(null);
 
   useEffect(() => {
-    document.body.className = "login-body";
-
     const container = containerRef.current;
-    const registerBtn = registerBtnRef.current;
-    const loginBtn = loginBtnRef.current;
+    const registerBtn = container.querySelector("#register");
+    const loginBtn = container.querySelector("#login");
 
-    const handleRegisterClick = () => {
-      container.classList.add("active");
-    };
+    const handleRegister = () => container.classList.add("active");
+    const handleLogin = () => container.classList.remove("active");
 
-    const handleLoginClick = () => {
-      container.classList.remove("active");
-    };
-
-    registerBtn.addEventListener("click", handleRegisterClick);
-    loginBtn.addEventListener("click", handleLoginClick);
+    registerBtn.addEventListener("click", handleRegister);
+    loginBtn.addEventListener("click", handleLogin);
 
     return () => {
-      document.body.className = "";
-      registerBtn.removeEventListener("click", handleRegisterClick);
-      loginBtn.removeEventListener("click", handleLoginClick);
+      registerBtn.removeEventListener("click", handleRegister);
+      loginBtn.removeEventListener("click", handleLogin);
     };
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Usuario autenticado");
-    navigate("/homelogin");
-  };
-
   return (
-    <div className="container-log" ref={containerRef}>
-      <div className="form-box login">
-        <form onSubmit={handleSubmit}>
-          <h1>Login</h1>
-          <div className="input-box">
-            <input type="text" placeholder="Username" required />
-            <i className="bx bxs-user"></i>
-          </div>
-          <div className="input-box">
-            <input type="password" placeholder="Password" required />
-            <i className="bx bxs-lock-alt"></i>
-          </div>
-          <button type="submit" className="btn">
-            Login
-          </button>
-        </form>
-      </div>
+    <div className="login-wrapper">
+      <div className="login-container" ref={containerRef}>
+        {/* ===== Registro ===== */}
+        <div className="login-form-container login-sign-up">
+          <form>
+            <h1>Crear Cuenta</h1>
+            <span>Usa tu correo para registrarte</span>
+            <input type="text" placeholder="Nombre" />
+            <input type="email" placeholder="Email" />
+            <input type="password" placeholder="Contraseña" />
+            <button>Registrarte</button>
 
-      <div className="form-box register">
-        <form>
-          <h1>Registration</h1>
-          <div className="input-box">
-            <input type="text" placeholder="Username" required />
-            <i className="bx bxs-user"></i>
-          </div>
-          <div className="input-box">
-            <input type="email" placeholder="Email" required />
-            <i className="bx bxs-envelope"></i>
-          </div>
-          <div className="input-box">
-            <input type="password" placeholder="Password" required />
-            <i className="bx bxs-lock-alt"></i>
-          </div>
-          <button type="submit" className="btn">
-            Register
-          </button>
-        </form>
-      </div>
-
-      <div className="toggle-box">
-        <div className="toggle-panel toggle-left">
-          <h1>Hello, Welcome!</h1>
-          <p>Don´t have an account?</p>
-          <button className="btn" ref={registerBtnRef}>
-            Register
-          </button>
+            {/* Solo visible en móvil */}
+            <p className="login-mobile-link">
+              ¿Ya tienes una cuenta?{" "}
+              <a
+                href="#"
+                id="login-mobile"
+                onClick={(e) => {
+                  e.preventDefault();
+                  containerRef.current.classList.remove("active");
+                }}
+              >
+                Inicia sesión
+              </a>
+            </p>
+          </form>
         </div>
-        <div className="toggle-panel toggle-right">
-          <h1>Welcome Back</h1>
-          <p>Already have an account?</p>
-          <button className="btn" ref={loginBtnRef}>
-            Login
-          </button>
+
+        {/* ===== Inicio de sesión ===== */}
+        <div className="login-form-container login-sign-in">
+          <form>
+            <h1>Iniciar Sesión</h1>
+            <input type="email" placeholder="Email" />
+            <input type="password" placeholder="Contraseña" />
+            <button>Ingresar</button>
+
+            {/* Solo visible en móvil */}
+            <p className="login-mobile-link">
+              ¿No tienes cuenta?{" "}
+              <a
+                href="#"
+                id="register-mobile"
+                onClick={(e) => {
+                  e.preventDefault();
+                  containerRef.current.classList.add("active");
+                }}
+              >
+                Regístrate
+              </a>
+            </p>
+          </form>
+        </div>
+
+        {/* ===== Panel deslizante ===== */}
+        <div className="login-toggle-container">
+          <div className="login-toggle">
+            <div className="login-toggle-panel login-toggle-left">
+              <h1>Bienvenido!</h1>
+              <p>
+                Introduce tus datos personales para utilizar todas las funciones
+                del sitio web.
+              </p>
+              <button className="login-hidden" id="login">
+                Inicia Sesión
+              </button>
+            </div>
+            <div className="login-toggle-panel login-toggle-right">
+              <h1>Hola amigo!</h1>
+              <p>
+                Regístrate con tus datos personales para utilizar todas las
+                funciones del sitio web.
+              </p>
+              <button className="login-hidden" id="register">
+                Regístrate
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
