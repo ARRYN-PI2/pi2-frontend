@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./ProductCard.css";
 import ProductModal from "./ProductModal";
+import apiClient from "../services/api";
 
 export default function ProductCard({ product }) {
   const [showModal, setShowModal] = useState(false);
+  const [extraDetails, setExtraDetails] = useState(null);
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
+  const [detailsError, setDetailsError] = useState("");
 
   // Fallbacks por si faltan datos
   const nombre = product?.titulo || product?.name || "Producto sin nombre";
@@ -16,6 +20,56 @@ export default function ProductCard({ product }) {
     null;
   const imagen = product?.imagen || product?.image;
   const link = product?.link || "#";
+
+  useEffect(() => {
+    let ignore = false;
+
+    if (!showModal) {
+      setExtraDetails(null);
+      setDetailsError("");
+      setIsLoadingDetails(false);
+      return () => {
+        ignore = true;
+      };
+    }
+
+    if (!product?._id || product?.detalles_adicionales) {
+      setExtraDetails(null);
+      setDetailsError("");
+      setIsLoadingDetails(false);
+      return () => {
+        ignore = true;
+      };
+    }
+
+    const fetchDetails = async () => {
+      setIsLoadingDetails(true);
+      setDetailsError("");
+
+      try {
+        const data = await apiClient.getOfferDetails(product._id);
+        if (!ignore) {
+          setExtraDetails(data);
+        }
+      } catch (err) {
+        if (!ignore) {
+          setDetailsError(
+            err?.message || "No se pudieron cargar los detalles."
+          );
+        }
+      } finally {
+        if (!ignore) {
+          setIsLoadingDetails(false);
+        }
+      }
+    };
+
+    fetchDetails();
+
+    return () => {
+      ignore = true;
+    };
+  }, [showModal, product]);
 
   return (
     <div className="product-card" data-testid="product-card">
@@ -75,6 +129,9 @@ export default function ProductCard({ product }) {
       {showModal && (
         <ProductModal
           product={product}
+          extraDetails={extraDetails}
+          loadingDetails={isLoadingDetails}
+          detailsError={detailsError}
           onClose={() => setShowModal(false)}
         />
       )}

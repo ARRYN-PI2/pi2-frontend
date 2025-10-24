@@ -141,3 +141,17 @@
 .pagination button:hover:not(:disabled) {
   background: #e36e15;
 }
+
+.products-info {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: #eef3ff;
+  color: #1a3d7c;
+  font-size: 0.95rem;
+}
+
+.error-text {
+  color: #c0392b;
+  font-weight: 600;
+}
