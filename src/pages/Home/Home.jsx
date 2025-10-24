@@ -3,7 +3,7 @@ import "../Styles/global.css";
 import { Link } from "react-router-dom";
 
 
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/Logo.svg";
 import decoration1 from "../../assets/decoration1.webp";
 import decoration2 from "../../assets/decoration2.webp";
 import decoration3 from "../../assets/decoration3.webp";
