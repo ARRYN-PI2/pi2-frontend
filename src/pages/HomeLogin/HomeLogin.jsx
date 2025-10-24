@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Chatbot from "../../components/Chatbot";
 
 
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/Logo.svg";
 import userIcon from "../../assets/user.svg";
 import icon from "../../assets/icon.svg";
 import profile from "../../assets/profile.png";
