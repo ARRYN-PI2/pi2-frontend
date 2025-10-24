@@ -2,54 +2,54 @@ import "./Products.css";
 import "../Styles/global.css";
 import "../Styles/DarkMode.css";
 import { useState, useEffect, useRef } from "react";
-import { useSearchParams, Link, useNavigate } from "react-router-dom"; // agregado useNavigate
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import productsData from "../../data/products.json";
 import ProductCard from "../../components/ProductCard";
 import Chatbot from "../../components/Chatbot";
+
+
+import logo from "../../assets/logo.svg";
+import user from "../../assets/user.svg";
+import icon from "../../assets/icon.svg";
+import profile from "../../assets/profile.png";
+import logout from "../../assets/logout.png";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  // 🔹 Filtros
   const [category, setCategory] = useState("all");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(10000000);
   const [priceBounds, setPriceBounds] = useState({ min: 0, max: 10000000 });
   const [rating, setRating] = useState(0);
 
-  // 🔹 Estados de búsqueda
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // 🔹 Paginación
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  // 🔹 Modo oscuro
   const [darkMode, setDarkMode] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
   const [searchParams] = useSearchParams();
   const subMenuRef = useRef(null);
-  const navigate = useNavigate(); // 👈 hook de navegación
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     subMenuRef.current.classList.toggle("open-menu");
   };
 
   const handleLogout = () => {
-    document.body.classList.remove("dark-mode"); // 🔹 Limpia modo oscuro
-    navigate("/"); // 🔹 Redirige al inicio
+    document.body.classList.remove("dark-mode");
+    navigate("/");
   };
 
-
-  // Normalizar texto
   const normalizeText = (str) =>
     str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-  // Formato COP
   const formatCOP = (n) =>
     Number(n || 0).toLocaleString("es-CO", {
       style: "currency",
@@ -57,7 +57,6 @@ export default function Products() {
       maximumFractionDigits: 0,
     });
 
-  // Cargar productos y categorías
   useEffect(() => {
     setProducts(productsData);
     const uniqueCategories = [
@@ -74,7 +73,6 @@ export default function Products() {
     setMaxPrice(max);
   }, []);
 
-  // Leer query params (?category, ?search)
   useEffect(() => {
     const cat = searchParams.get("category");
     if (cat) setCategory(cat);
@@ -86,7 +84,6 @@ export default function Products() {
     }
   }, [searchParams]);
 
-  // Aplicar filtros
   useEffect(() => {
     let result = [...products];
 
@@ -121,13 +118,11 @@ export default function Products() {
     setCurrentPage(1);
   }, [products, category, minPrice, maxPrice, rating, searchTerm]);
 
-  // Paginación
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
-  // Popup Modo Oscuro
   const handleEditClick = (e) => {
     if (e) e.preventDefault();
     setShowPopup(true);
@@ -156,11 +151,10 @@ export default function Products() {
       <nav className="navbar-home">
         <div className="icon">
           <Link to="/homeLogin">
-            <img src="/src/assets/logo.svg" alt="Arryn logo" />
+            <img src={logo} alt="Arryn logo" />
           </Link>
         </div>
 
-        {/* 🔹 Caja de búsqueda */}
         <div className="search_box">
           <input
             type="search"
@@ -184,7 +178,7 @@ export default function Products() {
 
           <li className="user-desktop">
             <img
-              src="/src/assets/user.svg"
+              src={user}
               className="user-pick"
               onClick={toggleMenu}
               role="button"
@@ -192,43 +186,38 @@ export default function Products() {
             />
           </li>
 
-          {/* 🔹 Botón Editar Sitio versión móvil */}
           <li className="user-mobile">
             <button className="edit-site-btn" onClick={handleEditClick}>
               🛠️ Editar Sitio
             </button>
           </li>
 
-          {/* 🔹 Botón Cerrar Sesión móvil */}
           <li className="user-mobile">
             <button onClick={handleLogout} className="logout-btn">
               Cerrar Sesión
             </button>
           </li>
 
-          {/* Submenú */}
           <div className="sub-menu-wrap" ref={subMenuRef}>
             <div className="sub-menu">
               <div className="user-info">
-                <img src="/src/assets/icon.svg" alt="Icono" />
+                <img src={icon} alt="Icono" />
                 <h3>Bienvenido</h3>
               </div>
               <hr />
-              {/* 🔹 Botón Editar Sitio dentro del submenú */}
               <button
                 className="sub-menu-link edit-site-btn"
                 onClick={handleEditClick}
               >
-                <img src="/src/assets/profile.png" alt="Editar" />
+                <img src={profile} alt="Editar" />
                 <p>Editar Sitio</p>
               </button>
 
-              {/* 🔹 Cerrar sesión desde menú desktop */}
               <button
                 className="sub-menu-link logout-btn"
                 onClick={handleLogout}
               >
-                <img src="/src/assets/logout.png" alt="Salir" />
+                <img src={logout} alt="Salir" />
                 <p>Cerrar Sesión</p>
               </button>
             </div>
@@ -241,7 +230,7 @@ export default function Products() {
         </label>
       </nav>
 
-      {/* 🔹 Popup modo claro/oscuro */}
+      {/* Popup modo claro/oscuro */}
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-content">
