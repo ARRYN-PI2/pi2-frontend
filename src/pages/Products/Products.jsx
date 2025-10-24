@@ -3,9 +3,9 @@ import "../Styles/global.css";
 import "../Styles/DarkMode.css";
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
-import productsData from "../../data/products.json";
 import ProductCard from "../../components/ProductCard";
-import Chatbot from "../../components/Chatbot";
+import Chatbot from "../../components/ChatBot";
+import apiClient from "../../services/api";
 
 
 import logo from "../../assets/logo.svg";
@@ -33,6 +33,10 @@ export default function Products() {
 
   const [darkMode, setDarkMode] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [infoMessage, setInfoMessage] = useState("");
 
   const [searchParams] = useSearchParams();
   const subMenuRef = useRef(null);
@@ -47,8 +51,11 @@ export default function Products() {
     navigate("/");
   };
 
-  const normalizeText = (str) =>
-    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const normalizeText = (value) =>
+    (value ?? "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
 
   const formatCOP = (n) =>
     Number(n || 0).toLocaleString("es-CO", {
@@ -58,19 +65,33 @@ export default function Products() {
     });
 
   useEffect(() => {
-    setProducts(productsData);
-    const uniqueCategories = [
-      ...new Set(productsData.map((p) => p.categoria)),
-    ];
-    setCategories(uniqueCategories);
+    let ignore = false;
 
-    const prices = productsData.map((p) => Number(p.precio_valor) || 0);
-    const min = Math.min(...prices);
-    const max = Math.max(...prices);
+    const loadCategories = async () => {
+      setIsLoadingCategories(true);
+      try {
+        const data = await apiClient.getCategories();
+        if (ignore) return;
+        setCategories(Array.isArray(data?.categories) ? data.categories : []);
+      } catch (err) {
+        if (!ignore) {
+          setErrorMessage(
+            err?.message || "No se pudieron cargar las categorías."
+          );
+          setCategories([]);
+        }
+      } finally {
+        if (!ignore) {
+          setIsLoadingCategories(false);
+        }
+      }
+    };
 
-    setPriceBounds({ min, max });
-    setMinPrice(min);
-    setMaxPrice(max);
+    loadCategories();
+
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -83,6 +104,92 @@ export default function Products() {
       setSearchInput(search);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    let ignore = false;
+
+    const loadProducts = async () => {
+      if (!category) return;
+      setIsLoadingProducts(true);
+      setErrorMessage("");
+      setInfoMessage("");
+
+      try {
+        let response;
+
+        if (category === "all") {
+          response = await apiClient.getRankedOffers({ limit: 50 });
+        } else {
+          response = await apiClient.getOffersByCategory(category, {
+            limit: 50,
+          });
+        }
+
+        if (ignore) return;
+
+        const payload = Array.isArray(response?.results)
+          ? response.results
+          : Array.isArray(response)
+          ? response
+          : [];
+
+        const normalizedProducts = payload.map((item) => ({
+          ...item,
+          categoria: item.categoria || category,
+          precio_valor: Number(item.precio_valor) || 0,
+        }));
+
+        setProducts(normalizedProducts);
+
+        if (response?.message) {
+          setInfoMessage(response.message);
+        }
+
+        if (normalizedProducts.length) {
+          const prices = normalizedProducts
+            .map((p) => Number(p.precio_valor) || 0)
+            .filter((value) => !Number.isNaN(value));
+
+          if (prices.length) {
+            const min = Math.min(...prices);
+            const max = Math.max(...prices);
+            setPriceBounds({ min, max });
+            setMinPrice(min);
+            setMaxPrice(max);
+          } else {
+            setPriceBounds({ min: 0, max: 0 });
+            setMinPrice(0);
+            setMaxPrice(0);
+          }
+        } else {
+          setPriceBounds({ min: 0, max: 0 });
+          setMinPrice(0);
+          setMaxPrice(0);
+        }
+      } catch (err) {
+        if (!ignore) {
+          setProducts([]);
+          setFilteredProducts([]);
+          setPriceBounds({ min: 0, max: 0 });
+          setMinPrice(0);
+          setMaxPrice(0);
+          setErrorMessage(
+            err?.message || "No se pudieron cargar los productos."
+          );
+        }
+      } finally {
+        if (!ignore) {
+          setIsLoadingProducts(false);
+        }
+      }
+    };
+
+    loadProducts();
+
+    return () => {
+      ignore = true;
+    };
+  }, [category]);
 
   useEffect(() => {
     let result = [...products];
@@ -349,8 +456,15 @@ export default function Products() {
         </aside>
 
         <section className="products-main">
+          {infoMessage && !errorMessage && (
+            <div className="products-info">{infoMessage}</div>
+          )}
           <div className="products-grid">
-            {currentProducts.length > 0 ? (
+            {isLoadingCategories || isLoadingProducts ? (
+              <p>Cargando productos...</p>
+            ) : errorMessage ? (
+              <p className="error-text">{errorMessage}</p>
+            ) : currentProducts.length > 0 ? (
               currentProducts.map((p, idx) => (
                 <ProductCard key={idx} product={p} />
               ))

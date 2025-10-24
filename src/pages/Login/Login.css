@@ -79,6 +79,20 @@
     outline: none;
 }
 
+.login-status {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.login-status.success {
+    color: #1a7f37;
+}
+
+.login-status.error {
+    color: #c0392b;
+}
+
 /* ===== Paneles del formulario ===== */
 .login-form-container {
     position: absolute;
@@ -263,4 +277,3 @@
     display: block;
   }
 }
-

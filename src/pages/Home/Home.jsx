@@ -3,13 +3,13 @@ import "../Styles/global.css";
 import { Link } from "react-router-dom";
 
 
-import logo from "/src/assets/logo.svg";
-import decoration1 from "/src/assets/decoration1.webp";
-import decoration2 from "/src/assets/decoration2.webp";
-import decoration3 from "/src/assets/decoration3.webp";
-import decoration4 from "/src/assets/decoration4.webp";
-import decoration5 from "/src/assets/decoration5.webp";
-import workerArryn from "/src/assets/workerarryn.webp";
+import logo from "../../assets/Logo.svg";
+import decoration1 from "../../assets/decoration1.webp";
+import decoration2 from "../../assets/decoration2.webp";
+import decoration3 from "../../assets/decoration3.webp";
+import decoration4 from "../../assets/decoration4.webp";
+import decoration5 from "../../assets/decoration5.webp";
+import workerArryn from "../../assets/workerarryn.webp";
 
 export default function Home() {
   return (

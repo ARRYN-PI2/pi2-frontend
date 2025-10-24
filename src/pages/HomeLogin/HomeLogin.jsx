@@ -3,23 +3,23 @@ import "../Styles/global.css";
 import "../Styles/DarkMode.css";
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Chatbot from "../../components/Chatbot";
+import Chatbot from "../../components/ChatBot";
 
 
-import logo from "/src/assets/logo.svg";
-import userIcon from "/src/assets/user.svg";
-import icon from "/src/assets/icon.svg";
-import profile from "/src/assets/profile.png";
-import logoutIcon from "/src/assets/logout.png";
-import decoration1 from "/src/assets/decoration1.webp";
-import decoration2 from "/src/assets/decoration2.webp";
-import decoration3 from "/src/assets/decoration3.webp";
-import decoration4 from "/src/assets/decoration4.webp";
-import decoration5 from "/src/assets/decoration5.webp";
-import workerArryn from "/src/assets/workerarryn.webp";
-import arrynTv from "/src/assets/arryntv.webp";
+import logo from "../../assets/Logo.svg";
+import userIcon from "../../assets/user.svg";
+import icon from "../../assets/icon.svg";
+import profile from "../../assets/profile.png";
+import logoutIcon from "../../assets/logout.png";
+import decoration1 from "../../assets/decoration1.webp";
+import decoration2 from "../../assets/decoration2.webp";
+import decoration3 from "../../assets/decoration3.webp";
+import decoration4 from "../../assets/decoration4.webp";
+import decoration5 from "../../assets/decoration5.webp";
+import workerArryn from "../../assets/workerarryn.webp";
+import arrynTv from "../../assets/arryntv.webp";
 import arrynComputadoras from "/src/assets/arryncomputadoras.webp";
-import arrynCel from "/src/assets/arryncel.webp";
+import arrynCel from "../../assets/arryncel.webp";
 
 export default function HomeLogin() {
   const subMenuRef = useRef(null);
