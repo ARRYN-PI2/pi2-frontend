@@ -1,83 +1,100 @@
-name: Deploy Frontend to S3 + CloudFront
+name: Deploy Frontend to S3 & CloudFront
 
 on:
   push:
-    branches: [ "main" ]
-    paths:
-      - "package.json"
-      - "package-lock.json"
-      - "vite.config.*"
-      - "webpack.*"
-      - "src/**"
-      - "public/**"
-      - "build/**"
-      - ".github/workflows/deploy-frontend.yml"
+    branches:
+      - main
   workflow_dispatch:
-
-# Evita despliegues solapados en main
-concurrency:
-  group: "deploy-frontend-main"
-  cancel-in-progress: false
-
-permissions:
-  id-token: write   # OIDC
-  contents: read
 
 env:
   AWS_REGION: us-east-2
-  S3_BUCKET: learnia-frontend-assets1
-  CLOUDFRONT_DISTRIBUTION_ID: E15VDYJ5PHGZMY
-  NODE_VERSION: "20"
-  BUILD_DIR: "build"   # tu árbol ya genera 'build/'
+  S3_BUCKET: arryn-frontend-bucket
+  CLOUDFRONT_DISTRIBUTION_ID: E3MY4I6PUS96SU
+  NODE_VERSION: '18'
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: npm
+          cache: 'npm'
 
-      - name: Install
+      - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build application
         run: npm run build
+        env:
+          NODE_ENV: production
 
-      - name: Configure AWS credentials (OIDC)
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::974724840334:role/gh-actions-frontend-deploy
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: WhoAmI (debug)
-        run: aws sts get-caller-identity
-
-      # 1) /static (hash en nombre) -> caché larga. No borrar versiones previas.
-      - name: Upload /static (long cache, keep history)
+      - name: Sync assets to S3 (with long cache)
         run: |
-          aws s3 sync "$BUILD_DIR/static" "s3://${S3_BUCKET}/static" \
-            --cache-control "public,max-age=31536000,immutable"
+          aws s3 sync dist/ s3://${{ env.S3_BUCKET }}/ \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable" \
+            --exclude "index.html" \
+            --exclude "*.map"
 
-      # 2) Raíz (HTML y manifiestos sin hash) -> no-cache
-      - name: Upload root files (no-cache)
+      - name: Upload index.html to S3 (no cache)
         run: |
-          aws s3 cp "$BUILD_DIR/index.html" "s3://${S3_BUCKET}/index.html" \
-            --cache-control "no-cache, no-store, must-revalidate"
-          if [ -f "$BUILD_DIR/asset-manifest.json" ]; then
-            aws s3 cp "$BUILD_DIR/asset-manifest.json" "s3://${S3_BUCKET}/asset-manifest.json" \
-              --cache-control "no-cache, no-store, must-revalidate"
-          fi
+          aws s3 cp dist/index.html s3://${{ env.S3_BUCKET }}/index.html \
+            --cache-control "public, max-age=0, must-revalidate" \
+            --content-type "text/html"
 
-      # 3) Invalidación mínima (barata y suficiente)
-      - name: Invalidate CloudFront (HTML y raíz)
+      - name: Invalidate CloudFront cache
         run: |
-          aws cloudfront create-invalidation \
-            --distribution-id "${CLOUDFRONT_DISTRIBUTION_ID}" \
-            --paths "/index.html" "/asset-manifest.json" "/"
+          INVALIDATION_ID=$(aws cloudfront create-invalidation \
+            --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*" \
+            --query 'Invalidation.Id' \
+            --output text)
+          
+          echo "CloudFront invalidation created: $INVALIDATION_ID"
+          echo "INVALIDATION_ID=$INVALIDATION_ID" >> $GITHUB_ENV
+
+      - name: Wait for CloudFront invalidation
+        run: |
+          echo "Waiting for CloudFront invalidation to complete..."
+          aws cloudfront wait invalidation-completed \
+            --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --id ${{ env.INVALIDATION_ID }}
+          
+          echo "✅ CloudFront cache invalidated successfully!"
+
+      - name: Deployment summary
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "🚀 DEPLOYMENT COMPLETED SUCCESSFULLY"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "📦 S3 Bucket: s3://${{ env.S3_BUCKET }}"
+          echo "🌐 CloudFront Distribution: ${{ env.CLOUDFRONT_DISTRIBUTION_ID }}"
+          echo "🔄 Invalidation ID: ${{ env.INVALIDATION_ID }}"
+          echo ""
+          echo "🔗 Access your application at:"
+          echo "   • https://arryn.app"
+          echo "   • https://www.arryn.app"
+          echo "   • https://d2objaapejmkqm.cloudfront.net"
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+      - name: Notify deployment failure
+        if: failure()
+        run: |
+          echo "❌ DEPLOYMENT FAILED"
+          echo "Please check the logs above for more details."
+          exit 1
