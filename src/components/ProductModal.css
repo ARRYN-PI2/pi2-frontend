@@ -83,6 +83,12 @@
   border-left: 4px solid #FF6B00;
 }
 
+.modal-error {
+  margin-top: 8px;
+  color: #c0392b;
+  font-weight: 600;
+}
+
 .modal-link {
   display: inline-block;
   margin-top: 18px;

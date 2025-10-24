@@ -1,8 +1,20 @@
 // src/components/ProductModal.jsx
 import "./ProductModal.css";
 
-export default function ProductModal({ product, onClose }) {
+export default function ProductModal({
+  product,
+  extraDetails,
+  loadingDetails = false,
+  detailsError = "",
+  onClose,
+}) {
   if (!product) return null;
+
+  const formattedPrice = Number(product.precio_valor ?? product.price ?? 0);
+  const detallesAdicionales =
+    extraDetails?.detalles_adicionales ??
+    product?.detalles_adicionales ??
+    "";
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -23,21 +35,31 @@ export default function ProductModal({ product, onClose }) {
         </div>
 
         <div className="modal-body">
-          <p><strong>Marca:</strong> {product.marca}</p>
-          <p><strong>Categoría:</strong> {product.categoria}</p>
+          <p><strong>Marca:</strong> {product.marca || "Sin marca"}</p>
+          <p><strong>Categoría:</strong> {product.categoria || "Sin categoría"}</p>
           <p>
             <strong>Precio:</strong>{" "}
-            {Number(product.precio_valor).toLocaleString("es-CO", {
-              style: "currency",
-              currency: "COP",
-              maximumFractionDigits: 0,
-            })}
+            {formattedPrice
+              ? formattedPrice.toLocaleString("es-CO", {
+                  style: "currency",
+                  currency: "COP",
+                  maximumFractionDigits: 0,
+                })
+              : "Precio no disponible"}
           </p>
-          <p><strong>Calificación:</strong> {product.calificacion}</p>
-          <p><strong>Tamaño:</strong> {product.tamaño}</p>
+          <p><strong>Calificación:</strong> {product.calificacion ?? "N/A"}</p>
+          {product.tamaño && <p><strong>Tamaño:</strong> {product.tamaño}</p>}
 
           <h3>Descripción</h3>
-          <pre className="modal-description">{product.detalles_adicionales}</pre>
+          {loadingDetails ? (
+            <p>Cargando detalles...</p>
+          ) : detailsError ? (
+            <p className="modal-error">{detailsError}</p>
+          ) : detallesAdicionales ? (
+            <pre className="modal-description">{detallesAdicionales}</pre>
+          ) : (
+            <p>No hay detalles adicionales para este producto.</p>
+          )}
 
           <a
             href={product.link}
