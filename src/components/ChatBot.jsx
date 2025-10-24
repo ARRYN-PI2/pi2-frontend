@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState(() => {
-    // 🔄 Carga historial desde sessionStorage
+    //  Carga historial desde sessionStorage
     const saved = sessionStorage.getItem("chat:global");
     return saved ? JSON.parse(saved) : [
       { from: "bot", text: "Hola 👋 ¿Cómo te puedo ayudar el día de hoy? " }
@@ -16,7 +16,7 @@ export default function Chatbot() {
   const toggleChatbot = () => {
     setIsOpen(!isOpen);
     document.body.classList.toggle("show-chatbot", !isOpen);
-    // 🔄 Guardar estado en sessionStorage (solo mientras dure la pestaña)
+    //  Guardar estado en sessionStorage (solo mientras dure la pestaña)
     sessionStorage.setItem("chat:isOpen", JSON.stringify(!isOpen));
   };
 
@@ -36,12 +36,12 @@ export default function Chatbot() {
     }, 800);
   };
 
-  // 🔄 Guardar historial en sessionStorage
+  // Guardar historial en sessionStorage
   useEffect(() => {
     sessionStorage.setItem("chat:global", JSON.stringify(messages));
   }, [messages]);
 
-  // 🔄 Cargar estado abierto/cerrado desde sessionStorage
+  // Cargar estado abierto/cerrado desde sessionStorage
   useEffect(() => {
     const open = JSON.parse(sessionStorage.getItem("chat:isOpen"));
     if (open) {
