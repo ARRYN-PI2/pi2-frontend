@@ -4,7 +4,7 @@ import "../Styles/DarkMode.css";
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard";
-import Chatbot from "../../components/ChatBot";
+import Chatbot from "../../components/Chatbot.jsx";
 import apiClient from "../../services/api";
 
 

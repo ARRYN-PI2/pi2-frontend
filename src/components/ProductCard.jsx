@@ -116,7 +116,7 @@ export default function ProductCard({ product }) {
           </a>
         </p>
 
-        {/* ✅ Aquí conectamos el modal */}
+ 
         <button
           className="details-btn"
           onClick={() => setShowModal(true)}
@@ -125,7 +125,7 @@ export default function ProductCard({ product }) {
         </button>
       </div>
 
-      {/* ✅ Render del modal */}
+ 
       {showModal && (
         <ProductModal
           product={product}

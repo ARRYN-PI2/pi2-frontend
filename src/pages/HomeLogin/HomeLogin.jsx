@@ -3,7 +3,7 @@ import "../Styles/global.css";
 import "../Styles/DarkMode.css";
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Chatbot from "../../components/ChatBot";
+import Chatbot from "../../components/Chatbot.jsx";
 
 
 import logo from "../../assets/Logo.svg";
