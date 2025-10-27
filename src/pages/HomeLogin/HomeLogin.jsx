@@ -7,7 +7,7 @@ import Chatbot from "../../components/Chatbot.jsx";
 
 
 import logo from "../../assets/Logo.svg";
-import userIcon from "../../assets/user.svg";
+import userIcon from "../../assets/User.svg";
 import icon from "../../assets/icon.svg";
 import profile from "../../assets/profile.png";
 import logoutIcon from "../../assets/logout.png";
