@@ -18,7 +18,7 @@ import decoration4 from "../../assets/decoration4.webp";
 import decoration5 from "../../assets/decoration5.webp";
 import workerArryn from "../../assets/workerarryn.webp";
 import arrynTv from "../../assets/arryntv.webp";
-import arrynComputadoras from "/src/assets/arryncomputadoras.webp";
+import arrynComputadoras from "../../assets/arryncomputadoras.webp";
 import arrynCel from "../../assets/arryncel.webp";
 
 export default function HomeLogin() {
@@ -26,7 +26,7 @@ export default function HomeLogin() {
   const navigate = useNavigate();
 
   const [searchInput, setSearchInput] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
+  const [setDarkMode] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
   const toggleMenu = () => {

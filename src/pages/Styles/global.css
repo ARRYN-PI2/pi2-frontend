@@ -504,6 +504,7 @@ input[type="checkbox"] {
   cursor: pointer;
   background: #FA8232;
   border-radius: 50%;
+  z-index: 999;
 }
 
 .chatbot-toggler span {
@@ -532,7 +533,7 @@ input[type="checkbox"] {
   border-radius: 15px;
   box-shadow: 0 0 128px rgba(0, 0, 0, 0.1),
     0 32px 64px -48px rgba(0, 0, 0, 0.5);
-  z-index: 20;
+  z-index: 100;
 }
 
 .show-chatbot .chatbot {
