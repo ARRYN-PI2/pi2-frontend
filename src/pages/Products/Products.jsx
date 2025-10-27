@@ -9,7 +9,7 @@ import apiClient from "../../services/api";
 
 
 import logo from "../../assets/logo.svg";
-import user from "../../assets/user.svg";
+import user from "../../assets/User.svg";
 import icon from "../../assets/icon.svg";
 import profile from "../../assets/profile.png";
 import logout from "../../assets/logout.png";
@@ -295,7 +295,7 @@ export default function Products() {
 
           <li className="user-mobile">
             <button className="edit-site-btn" onClick={handleEditClick}>
-              🛠️ Editar Sitio
+              Editar Sitio
             </button>
           </li>
 

@@ -26,7 +26,7 @@ export default function HomeLogin() {
   const navigate = useNavigate();
 
   const [searchInput, setSearchInput] = useState("");
-  const [setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
   const toggleMenu = () => {
@@ -111,7 +111,7 @@ export default function HomeLogin() {
           {/* 🔹 Botón Editar Sitio (móvil) */}
           <li className="user-mobile">
             <button className="edit-site-btn" onClick={handleEditClick}>
-              🛠️ Editar Sitio
+              Editar Sitio
             </button>
           </li>
 
