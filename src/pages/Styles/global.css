@@ -839,5 +839,34 @@ input[type="checkbox"] {
 
 
 
+/* === Botones móviles iguales a los <a> del menú === */
+@media screen and (max-width: 1250px) {
+  /* Reset suave (no usar all: unset para no romper herencias sutiles) */
+  nav .user-mobile .edit-site-btn,
+  nav .user-mobile .logout-btn {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    /* Estilos idénticos al <a> móvil */
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #000;
+    font-size: 28px;
+    padding: 25px;
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+
+  /* Hover igual que los enlaces */
+  nav .user-mobile .edit-site-btn:hover,
+  nav .user-mobile .logout-btn:hover {
+    background: #fff;
+    color: #FA8232;
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+}
+
 
 
