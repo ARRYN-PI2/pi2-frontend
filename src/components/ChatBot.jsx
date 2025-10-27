@@ -9,6 +9,7 @@ export default function Chatbot() {
     return saved ? JSON.parse(saved) : [
       { from: "bot", text: "Hola 👋 ¿Cómo te puedo ayudar el día de hoy? " }
     ];
+    
   });
   const [input, setInput] = useState("");
   const chatboxRef = useRef(null);
